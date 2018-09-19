@@ -4,8 +4,8 @@
 #include <PubSubClient.h>
 
 
-#define MAX485_DE 19 // was 5(moteino) //and was 2(d4) on esp8266 but have trouble
-#define MAX485_RE_NEG 19 // was 6
+#define MAX485_DE 19 
+#define MAX485_RE_NEG 19 
 int wifiSetupCount = 0;
 const char* ssid     = "-----";
 const char* password = "--------";
@@ -18,7 +18,7 @@ WiFiClient espClient;
 PubSubClient client(espClient);
 
 HardwareSerial mySerial(1);
-//HardwareSerial SerialAT(1);
+
 
 float Voltage1;
 float Voltage2;
@@ -121,12 +121,12 @@ void setup()
 {
   pinMode(MAX485_RE_NEG, OUTPUT);
   pinMode(MAX485_DE, OUTPUT);
-  // Init in receive mode
+ 
   digitalWrite(MAX485_RE_NEG, 0);
   digitalWrite(MAX485_DE, 0);
   Serial.begin(9600);
   mySerial.begin(9600, SERIAL_8N1, 4, 15);
-  // SerialAT.begin(115200,SERIAL_8N1,16,17,false);
+  
   WiFi.disconnect();
   WiFi.begin(ssid, password);
 
@@ -246,12 +246,11 @@ void loop()
   if (result == node.ku8MBSuccess)
   {
 
-    //Serial.print("averagePhaseVoltage:");
-    //  averagePhaseVoltage = f_2uint_float(node.getResponseBuffer(0x01), node.getResponseBuffer(0x00));
+   
     Voltage1 = f_2uint_float(node.getResponseBuffer(0x01), node.getResponseBuffer(0x00));
     Voltage2 = f_2uint_float(node.getResponseBuffer(0x03), node.getResponseBuffer(0x02));
     Voltage3 = f_2uint_float(node.getResponseBuffer(0x05), node.getResponseBuffer(0x04));
-    //Serial.println(averagePhaseVoltage);
+
     Serial.println(Voltage1);
     Serial.println(Voltage2);
     Serial.println(Voltage3);
